@@ -1,0 +1,37 @@
+# Sestavení (Build) výstupy
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+# Visual Studio soubory
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.cache
+
+# NuGet balíčky
+packages/
+*.nupkg
+project.lock.json
+
+# Rider / JetBrains soubory
+.idea/
+*.sln.iml
+
+# ASP.NET Core environment variables
+appsettings.Development.json
+
+# Debugging
+*.tlog
+*.lastcodeanalysissucceeded
+
+# Docker / Kubernetes
+.dockerignore
+docker-compose.override.yml
