@@ -11,7 +11,6 @@ namespace Recipe
     // Enum for alergens
     public enum Allergen
     {
-        None,
         Gluten,
         Dairy,
         Nuts,

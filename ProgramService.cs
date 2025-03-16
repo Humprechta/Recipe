@@ -12,10 +12,12 @@ namespace Recipe
 {
     public class ProgramService
     {
-        
-        private PrintClass Print = new PrintClass();
-        private Recipes Recipes = new Recipes();
-        public Dictionary<string, Action> mainMenuOptions = new Dictionary<string, Action>();
+
+        private PrintClass Print = new ();
+        private Recipes Recipes = new();
+        private Dictionary<string, Action> mainMenuOptions;
+        private Dictionary<string, Action> menuSearch;
+        private SearchService searchService = new ();
         public ProgramService()
         {
             mainMenuOptions = new Dictionary<string, Action>
@@ -190,6 +192,7 @@ namespace Recipe
             Print.Print("[Recipe saved]", true, ConsoleColor.Green);
             Recipes.recipes.Add(recipe);
         }
+        
         private List<Instruction> createInstructions()
         {
             List<Instruction> instructions = new List<Instruction>();
@@ -197,7 +200,6 @@ namespace Recipe
             while (true) //creating instruction
             {
                 Print.Print("Add instruction (y/n): ",false);
-                Print.deli();
                 if (Console.ReadLine().ToLower() != "y") {
                     Print.Print("Recap: ");
                     Print.PrintList(instructions, ConsoleColor.Yellow);
@@ -244,10 +246,15 @@ namespace Recipe
             }
             return instructions;
         }
-        public void SearchRecipe()
-        {
 
+        private void SearchRecipe()
+        {
+            searchService.SearchRecipe(Recipes.GetRecipes());
         }
+
+        //Print.Print(SearchRecipes(new List<string> { "Eggs", "Butter" }, DishType.Main, new HashSet<Allergen> { Allergen.Dairy }).Count());
+        //Print.PrintList(SearchRecipes(new List<string> { "Eggs", "Butter" }, DishType.Main, new HashSet<Allergen> { Allergen.Nuts }));
+
         public void ListAllRecipes()
         {
             Print.deli();
@@ -262,7 +269,7 @@ namespace Recipe
         public void HandleMenu(Dictionary<string, Action> menuOpt)
         {
             Print.deli();
-            Print.Print("│       [Menu]       │");
+            Print.Print($"│       [Menu]       │");
             Print.deli();
             int index = 1;
             foreach (var option in menuOpt.Keys)

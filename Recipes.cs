@@ -9,7 +9,11 @@ namespace Recipe
 {
     public class Recipes
     {
-        public List<Recipe> recipes = new List<Recipe>();
+        public List<Recipe> recipes { get; set; } = new();
+        public List<Recipe> GetRecipes()
+        {
+            return recipes;
+        }
         public Recipes()
         {
             List<Ingredient> scrambledEggsIngredients =
