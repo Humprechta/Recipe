@@ -46,7 +46,7 @@ namespace Recipe
 
         public string GetPrintableString()
         {
-            return $"{step} - {duration}";
+            return $"{step} - {duration} min";
         }
     }
 }

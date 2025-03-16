@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace Recipe
 {
+
+    // Enum for alergens
+    public enum Allergen
+    {
+        None,
+        Gluten,
+        Dairy,
+        Nuts,
+        Eggs,
+        Soy,
+        Seafood
+    }
     public enum DishType
     {
         Main, 
@@ -17,17 +29,19 @@ namespace Recipe
         public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();// Krok za krokem postup
         //public List<Allergen> Allergens { get; set; } // Alergeny obsažené v receptu
+        private HashSet<Allergen> allergens;
         private DishType dishType;
 
         public Recipe(string name)
         {
             Name = name;
         }
-        public Recipe(string name, List<Ingredient> ingredients, List<Instruction> instructions, DishType dishType) : this(name)
+        public Recipe(string name, List<Ingredient> ingredients, List<Instruction> instructions, DishType dishType, HashSet<Allergen> allergens) : this(name) //send name toother constructor
         {
             Ingredients = ingredients;
             Instructions = instructions;
             this.dishType = dishType;
+            Allergens = allergens;
         }
 
         public DishType DishType
@@ -54,17 +68,10 @@ namespace Recipe
             return duration;
         }
 
-        public HashSet<Allergen> GetUniqAllergens()
+        public HashSet<Allergen> Allergens
         {
-            HashSet<Allergen> uniqueAllergens = new HashSet<Allergen>();
-            foreach (Ingredient ingredient in Ingredients)
-            {
-                foreach (var allergen in ingredient.Allergens)
-                {
-                    uniqueAllergens.Add(allergen);
-                }
-            }
-            return uniqueAllergens;
+            get { return allergens; }
+            set { allergens = value ?? new HashSet<Allergen>(); }
         }
 
         public void AddIngredient(Ingredient ingredient)
@@ -82,25 +89,47 @@ namespace Recipe
         {
             return Instructions.Sum(i => i.Duration);
         }
+        /*private string getAlergens()
+        {
+            if(Allergens.Count == 0)
+            {
+                return " └── - No allergens -";
+            }
+            foreach (Ingredient ingredient in Ingredients)
+
+            return $"Alergens: {string.Join(", ", Allergens)}";
+        }*/
         public string GetPrintableString()
         {
-            string s = $"{Name} ({dishType})\n";
-            s += "\n└──Ingredietns:\n";
-            int ingredientCount = 1;
+            string s = $"[{Name}] ({dishType})\n";
+            s += "\n└──[Ingredietns:]\n";
+            int count = 1;
             foreach (Ingredient ingredient in Ingredients)
             {
-                s += $"    └──{ingredientCount}. {ingredient.GetPrintableString()}\n";
-                ingredientCount++;
+                s += $"    └──{count}. {ingredient.GetPrintableString()}\n";
+                count++;
             }
 
-            s += "\n└──Instruction:\n";
-            int instructionCount = 1;
+            s += "\n└──[Alergens:]\n";
+            count = 1;
+            if(Allergens.Count == 0)
+            {
+                s += "    └── - No allergens -";
+            }
+            foreach (Allergen allergen in Allergens)
+            {
+                s += $"    └──{count}. {allergen}\n";
+                count++;
+            }
+
+            s += "\n└──[Instruction:] \n";
+            count = 1;
             foreach (Instruction instruction in Instructions)
             {
-                s += $"   └──{instructionCount}. {instruction.GetPrintableString()}\n";
-                instructionCount++;
+                s += $"   └──{count}. {instruction.GetPrintableString()}\n";
+                count++;
             }
-            s += $"\n└──Overall duration: {GetDuration()} min\n";
+            s += $"\n└──[Overall duration:] {GetDuration()} min\n";
 
             return s;
         }

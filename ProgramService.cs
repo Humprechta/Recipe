@@ -13,7 +13,7 @@ namespace Recipe
     public class ProgramService
     {
         
-        private Print _p = new Print();
+        private PrintClass Print = new PrintClass();
         private Recipes Recipes = new Recipes();
         public Dictionary<string, Action> mainMenuOptions = new Dictionary<string, Action>();
         public ProgramService()
@@ -29,7 +29,7 @@ namespace Recipe
 
         public void start()
         {
-            _p.pl("Vítejte v aplikaci Recipe by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
+            Print.Print("Vítejte v aPrintikaci Recipe by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
             while (true) //program loop
             {
                 HandleMenu(mainMenuOptions);
@@ -41,27 +41,26 @@ namespace Recipe
             double quantity = 0;
             Unit unit = Unit.Gram; // Výchozí hodnota
             DishType dishType = DishType.Main; // Výchozí hodnota
-            List<Allergen> allergens = new List<Allergen>();
             Ingredient ingredient = null;
             while (true)//name
             {
                 try
                 {
-                    _p.pl("Název ingredience: ");
+                    Print.Print("Název ingredience: ");
                     ingredientName = Console.ReadLine();
                     ingredient = new Ingredient(ingredientName);
                     break;
                 }
                 catch (CustomException e)
                 {
-                    _p.prl(e.Message);
+                    Print.Print("{" + e.Message + "}");
                 }
             }
             while (true)//quantity
             {
                 try
                 {
-                    _p.pl("Množství / váha: ");
+                    Print.Print("Množství / váha: ");
                     if (!double.TryParse(Console.ReadLine(), out quantity))
                     {
                         throw new CustomException("Zadejte prosí, číslo");
@@ -71,7 +70,7 @@ namespace Recipe
                 }
                 catch (CustomException e)
                 {
-                    _p.prl(e.Message);
+                    Print.Print("{" + e.Message + "}");
                 }
             }
             // Jednotka
@@ -79,27 +78,79 @@ namespace Recipe
             {
                 try
                 {
-                    _p.pl("Jednotka (Gram, Milliliter, Piece, Teaspoon, Tablespoon, Cup): ");
+                    Print.Print("Jednotka (Gram, Milliliter, Piece, Teaspoon, Tablespoon, Cup): ");
                     if (!Enum.TryParse(Console.ReadLine(), out unit))
                     {
-                        throw new CustomException("Neplatná jednotka.");
+                        throw new CustomException("NePrintatná jednotka.");
                     }
                     ingredient.Unit = unit;
                     break;
                 }
                 catch (CustomException e)
                 {
-                    _p.prl(e.Message);
+                    Print.Print("{" + e.Message + "}");
                 }
             }
-            // Alergeny
-            _p.p("Obsahuje alergeny? (y/n): ");
+            Print.p("Recap: ");
+            Print.Print("[" + ingredient.GetPrintableString() + "]");
+            Print.p("Save? y/n:");
             if (Console.ReadLine().ToLower() == "y")
             {
-                _p.pl("Add alergens (0 for exit):");
+                return ingredient;
+            }
+            return null;
+        }
+        public void AddRecipe()
+        {
+            Print.deli();
+            Print.Print("│ [Creating recipe]  │");
+            Print.deli();
+            Print.Print("Zadejte název receptu: ");
+            string name = Console.ReadLine();
+            DishType dishType = DishType.Main; // Výchozí hodnota
+            Recipe recipe = new Recipe(name);
+            HashSet<Allergen> allergens = new();
+            // Typ jídla
+            while (true)
+            {
+                try
+                {
+                    Print.Print("Typ jídla (Main, Dessert): ");
+                    if (Enum.TryParse(Console.ReadLine(), out dishType))
+                    {
+                        recipe.DishType = dishType;
+                        break; // Ukončí cyklus pouze pokud se převod podaří
+                    }
+                    else
+                    {
+                        throw new CustomException("NePrintatný typ jídla.");
+                    }
+                }
+                catch (CustomException e)
+                {
+                    Print.Print("{" + e.Message + "}");
+                }
+            }
+            while (true)
+            {
+                Print.p("Add ingredient (y/n): ");
+                if (Console.ReadLine().ToLower() != "y") break;
+                Ingredient ingredient = CreateIngredient();
+                if (ingredient != null)
+                {
+                    recipe.AddIngredient(ingredient);
+                    Print.Print("Ingredient saved.", true,ConsoleColor.Green);
+                } 
+            }
+
+            // Alergens
+            Print.p("Obsahuje alergeny? (y/n): ");
+            if (Console.ReadLine().ToLower() == "y")
+            {
+                Print.Print("Add alergens (0 for exit):");
                 while (true)
                 {
-                    _p.pl("Alergen (Gluten, Dairy, Nuts, Eggs, Soy, Seafood) nebo 0 pro ukončení: ");
+                    Print.Print("Alergen (Gluten, Dairy, Nuts, Eggs, Soy, Seafood) nebo 0 pro ukončení: ");
                     string allergenInput = Console.ReadLine();
                     if (allergenInput == "0")
                     {
@@ -113,70 +164,20 @@ namespace Recipe
                         }
                         else
                         {
-                            throw new CustomException("Neplatný alergen.");
+                            throw new CustomException("NePrintatný alergen.");
                         }
                     }
                     catch (CustomException e)
                     {
-                        _p.prl(e.Message);
+                        Print.Print("{" + e.Message + "}");
                     }
                 }
             }
-            ingredient.Allergens = allergens;
-            _p.p("Recap: ");
-            _p.PrintLnColor(ingredient.GetPrintableString(), ConsoleColor.Yellow);
-            _p.p("Save? y/n:");
-            if (Console.ReadLine().ToLower() == "y")
-            {
-                return ingredient;
-            }
-            return null;
-        }
-        public void AddRecipe()
-        {
-            _p.deli();
-            _p.pl("│ Creating recipe  │");
-            _p.deli();
-            _p.pl("Zadejte název receptu: ");
-            string name = Console.ReadLine();
-            DishType dishType = DishType.Main; // Výchozí hodnota
-            Recipe recipe = new Recipe(name);
-            // Typ jídla
-            while (true)
-            {
-                try
-                {
-                    _p.pl("Typ jídla (Main, Dessert): ");
-                    if (Enum.TryParse(Console.ReadLine(), out dishType))
-                    {
-                        recipe.DishType = dishType;
-                        break; // Ukončí cyklus pouze pokud se převod podaří
-                    }
-                    else
-                    {
-                        throw new CustomException("Neplatný typ jídla.");
-                    }
-                }
-                catch (CustomException e)
-                {
-                    _p.pl(e.Message);
-                }
-            }
-            while (true)
-            {
-                _p.p("Add ingredient (y/n): ");
-                if (Console.ReadLine().ToLower() != "y") break;
-                Ingredient ingredient = CreateIngredient();
-                if (ingredient != null)
-                {
-                    recipe.AddIngredient(ingredient);
-                    _p.PrintLnColor("Ingredient saved.", ConsoleColor.Green);
-                } 
-            }
+            recipe.Allergens = allergens;
             List<Instruction> listInstructions = createInstructions();
             recipe.Instructions = listInstructions;
-            _p.PrintLnColor("Recipe saved.", ConsoleColor.Green);
-            _p.deli();
+            Print.Print("Recipe saved.", true, ConsoleColor.Green);
+            Print.deli();
             Recipes.recipes.Add(recipe);
         }
         private List<Instruction> createInstructions()
@@ -185,13 +186,13 @@ namespace Recipe
 
             while (true) //creating instruction
             {
-                _p.deli();
-                _p.p("Add instruction (y/n): ");
-                _p.deli();
+                Print.deli();
+                Print.p("Add instruction (y/n): ");
+                Print.deli();
                 if (Console.ReadLine().ToLower() != "y") {
-                    _p.pl("Recap: ");
-                    _p.PrintList(instructions, ConsoleColor.Yellow);
-                    _p.p("Save? y/n:");
+                    Print.Print("Recap: ");
+                    Print.PrintList(instructions, ConsoleColor.Yellow);
+                    Print.p("Save? y/n:");
                     if (Console.ReadLine().ToLower() == "y")
                     {
                         break; //return
@@ -203,21 +204,21 @@ namespace Recipe
                 {
                     try
                     {
-                        _p.pl("Postup: "); //1.2...,
+                        Print.Print("Postup: "); //1.2...,
                         string step = Console.ReadLine();
                         instruction.Step = step;
                         break;
                     }
                     catch (CustomException e)
                     {
-                        _p.prl(e.Message);
+                        Print.Print("{" + e.Message + "}");
                     }
                 }
                 while (true)//quantity
                 {
                     try
                     {
-                        _p.pl("Duration (min)");
+                        Print.Print("Duration (min)");
                         if (!int.TryParse(Console.ReadLine(), out int duration))
                         {
                             throw new CustomException("Zadejte prosí, číslo");
@@ -227,7 +228,7 @@ namespace Recipe
                     }
                     catch (CustomException e)
                     {
-                        _p.prl(e.Message);
+                        Print.Print("{" + e.Message + "}");
                     }
                 }
                 instructions.Add(instruction);
@@ -240,10 +241,10 @@ namespace Recipe
         }
         public void ListAllRecipes()
         {
-            _p.deli();
-            _p.pl("│Listing all recipes in system...│");
-            _p.deli();
-            _p.PrintList(Recipes.recipes);
+            Print.deli();
+            Print.Print("│[Listing all recipes in system...]│");
+            Print.deli();
+            Print.PrintList(Recipes.recipes);
         }
         public void ExitProgram()
         {
@@ -251,30 +252,30 @@ namespace Recipe
         }
         public void HandleMenu(Dictionary<string, Action> menuOpt)
         {
-            _p.deli();
-            _p.pl("│       Menu       │");
-            _p.deli();
+            Print.deli();
+            Print.Print("│       [Menu]       │");
+            Print.deli();
             int index = 1;
             foreach (var option in menuOpt.Keys)
             {
-                _p.pr($"{index}. ");
-                _p.pl($"{option}");
+                Print.pr($"{index}. ");
+                Print.Print($"{option}");
                 index++;
             }
 
-            _p.p("Choose action: ");
+            Print.p("Choose action: ");
             string choice = Console.ReadLine();
 
             if (int.TryParse(choice, out int optionIndex) && optionIndex > 0 && optionIndex <= menuOpt.Count)
             {
                 string selectedOption = new List<string>(menuOpt.Keys)[optionIndex - 1];
-                _p.pl($"You choose: {selectedOption}");
+                Print.Print($"You choose: {selectedOption}");
                 
                 menuOpt[selectedOption].Invoke(); // Zavolá odpovídající metodu
             }
             else
             {
-                _p.pl("Neplatná volba, zkuste to znovu.");
+                Print.Print("{Invalid number, try again}");
             }
         }
     }

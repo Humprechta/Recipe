@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Recipe
 {
-    public class Print
+    public class PrintClass
+
     {
         /// <summary>
         /// Console.WriteLine(s)
@@ -25,7 +27,7 @@ namespace Recipe
             Console.Write(s);
         }
         /// <summary>
-        /// Print deli
+        /// PrintClass deli
         /// </summary>
         public void deli()
         {
@@ -38,32 +40,41 @@ namespace Recipe
             {
                 pr($"{line}. ");
                 Console.ForegroundColor = color;
-                pl(item.GetPrintableString());
+                Print(item.GetPrintableString());
                 Console.ResetColor();
                 line++;
             }
         }
-        public void prl(string s)
+        public void Print(string message,bool nextLine = true, ConsoleColor marker = ConsoleColor.Yellow, ConsoleColor err = ConsoleColor.Red)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(s);
-            Console.ResetColor();
+            var pieces = Regex.Split(message, @"(\{[^}]*\}|\[[^\]]*\])");
+
+            foreach (var piece in pieces)
+            {
+                if (piece.StartsWith("{") && piece.EndsWith("}"))
+                {
+                    Console.ForegroundColor = err;
+                    Console.Write(piece.Substring(1, piece.Length - 2));
+                }
+                else if (piece.StartsWith("[") && piece.EndsWith("]"))
+                {
+                    Console.ForegroundColor = marker;
+                    Console.Write(piece.Substring(1, piece.Length - 2));
+                }
+                else
+                {
+                    Console.ResetColor();
+                    Console.Write(piece);
+                }
+            }
+            if (nextLine)
+            {
+                Console.WriteLine();
+            }
         }
         public void pr(string s)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(s);
-            Console.ResetColor();
-        }
-        public void PrintLnColor(string s, ConsoleColor color = ConsoleColor.White)
-        {
-            Console.ForegroundColor = color;
-            Console.WriteLine(s);
-            Console.ResetColor();
-        }
-        public void PrintColor(string s, ConsoleColor color = ConsoleColor.White)
-        {
-            Console.ForegroundColor = color;
             Console.Write(s);
             Console.ResetColor();
         }

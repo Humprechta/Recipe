@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace Recipe
 {
-    // Enum pro alergeny
-    public enum Allergen
-    {
-        None,
-        Gluten,
-        Dairy,
-        Nuts,
-        Eggs,
-        Soy,
-        Seafood
-    }
-
     // Enum pro jednotky
     public enum Unit
     {
@@ -28,14 +16,12 @@ namespace Recipe
         Tablespoon,
         Cup
     }
-
     // Třída pro ingredience
     public class Ingredient : IPrintable
     {
         private string name;
         private double quantity;
         private Unit unit;
-        private List<Allergen> allergens;
 
         public string Name
         {
@@ -76,27 +62,21 @@ namespace Recipe
             }
         }
 
-        public List<Allergen> Allergens
-        {
-            get { return allergens; }
-            set { allergens = value ?? new List<Allergen>(); }
-        }
-
         public Ingredient(string name)
         {
             Name = name;
         }
-        public Ingredient(string name, double quantity, Unit unit, List<Allergen> allergens)
+        public Ingredient(string name, double quantity, Unit unit)
         {
             Name = name;
             Quantity = quantity;
             Unit = unit;
-            Allergens = allergens;
+            
         }
 
         public string GetPrintableString()
         {
-            return $"{Name} {Quantity} {Unit} (Alergeny: {string.Join(", ", Allergens)})";
+            return $"{Name} {Quantity} {Unit}";
         }
     }
 }

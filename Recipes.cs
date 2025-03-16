@@ -14,11 +14,11 @@ namespace Recipe
         {
             List<Ingredient> scrambledEggsIngredients =
             [
-                new Ingredient("Eggs", 2, Unit.Piece, new List<Allergen>() { Allergen.Eggs }),
-                new Ingredient("Milk", 2, Unit.Tablespoon, new List<Allergen>() { Allergen.Dairy }),
-                new Ingredient("Salt", 0.5, Unit.Teaspoon, new List<Allergen>()),
-                new Ingredient("Pepper", 1, Unit.Teaspoon, new List<Allergen>()),
-                new Ingredient("Butter", 1, Unit.Tablespoon, new List<Allergen>() { Allergen.Dairy })
+                new Ingredient("Eggs", 2, Unit.Piece),
+                new Ingredient("Milk", 2, Unit.Tablespoon),
+                new Ingredient("Salt", 0.5, Unit.Teaspoon),
+                new Ingredient("Pepper", 1, Unit.Teaspoon),
+                new Ingredient("Butter", 1, Unit.Tablespoon)
             ];
 
             List<Instruction> scrambledEggsInstructions =
@@ -34,16 +34,10 @@ namespace Recipe
                     "Scrambled Eggs",
                     scrambledEggsIngredients,
                     scrambledEggsInstructions,
-                    DishType.Main
+                    DishType.Main,
+                    new HashSet<Allergen>() { Allergen.Dairy, Allergen.Eggs }
                 ));
 
-            serialize();
-        }
-
-        public void serialize()
-        {
-            string json = JsonSerializer.Serialize(recipes);
-            Console.WriteLine(json);
         }
     }
 }
