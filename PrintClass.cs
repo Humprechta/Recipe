@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Recipe
 {
-    public class PrintClass
+    public class PrintService
 
     {
         /// <summary>
-        /// PrintClass deli
+        /// PrintService deli
         /// </summary>
         public void deli()
         {

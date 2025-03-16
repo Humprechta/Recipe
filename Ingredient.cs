@@ -23,6 +23,19 @@ namespace Recipe
         private double quantity;
         private Unit unit;
 
+        public Ingredient() { }
+        public Ingredient(string name)
+        {
+            Name = name;
+        }
+        public Ingredient(string name, double quantity, Unit unit)
+        {
+            Name = name;
+            Quantity = quantity;
+            Unit = unit;
+
+        }
+
         public string Name
         {
             get { return name; }
@@ -61,19 +74,6 @@ namespace Recipe
                 unit = value;
             }
         }
-
-        public Ingredient(string name)
-        {
-            Name = name;
-        }
-        public Ingredient(string name, double quantity, Unit unit)
-        {
-            Name = name;
-            Quantity = quantity;
-            Unit = unit;
-            
-        }
-
         public string GetPrintableString()
         {
             return $"{Name} {Quantity} {Unit}";

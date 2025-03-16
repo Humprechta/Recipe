@@ -12,12 +12,11 @@ namespace Recipe
 {
     public class ProgramService
     {
-
-        private PrintClass Print = new ();
+        private PrintService Print = new ();
         private Recipes Recipes = new();
         private Dictionary<string, Action> mainMenuOptions;
-        private Dictionary<string, Action> menuSearch;
         private SearchService searchService = new ();
+        private FileService fileService = new ("Recipe.json");
         public ProgramService()
         {
             mainMenuOptions = new Dictionary<string, Action>
@@ -31,7 +30,8 @@ namespace Recipe
 
         public void start()
         {
-            Print.Print("Vítejte v aPrintikaci Recipe by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
+            Print.Print("Welcome in Recipe app by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
+            Recipes.recipes = fileService.LoadRecipes();
             while (true) //program loop
             {
                 HandleMenu(mainMenuOptions);
@@ -189,8 +189,9 @@ namespace Recipe
             recipe.Allergens = allergens;
             List<Instruction> listInstructions = createInstructions();
             recipe.Instructions = listInstructions;
-            Print.Print("[Recipe saved]", true, ConsoleColor.Green);
             Recipes.recipes.Add(recipe);
+            fileService.SaveRecipes(Recipes.GetRecipes());
+            Print.Print("[Recipe saved]", true, ConsoleColor.Green);
         }
         
         private List<Instruction> createInstructions()
@@ -264,6 +265,7 @@ namespace Recipe
         }
         public void ExitProgram()
         {
+            fileService.SaveRecipes(Recipes.GetRecipes());
             Environment.Exit(0);
         }
         public void HandleMenu(Dictionary<string, Action> menuOpt)

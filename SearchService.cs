@@ -8,7 +8,7 @@ namespace Recipe
 {
     public class SearchService
     {
-        private PrintClass Print = new();
+        private PrintService Print = new();
         public void SearchRecipe(List<Recipe> recipes)
         {
             //HandleMenu(menuSearch);

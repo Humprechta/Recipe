@@ -31,6 +31,7 @@ namespace Recipe
         //public List<Allergen> Allergens { get; set; } // Alergeny obsažené v receptu
         private HashSet<Allergen> allergens;
         private DishType dishType;
+        public Recipe(){ }
 
         public Recipe(string name)
         {

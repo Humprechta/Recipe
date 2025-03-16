@@ -16,7 +16,7 @@ namespace Recipe
         }
         public Recipes()
         {
-            List<Ingredient> scrambledEggsIngredients =
+            /*List<Ingredient> scrambledEggsIngredients =
             [
                 new Ingredient("Eggs", 2, Unit.Piece),
                 new Ingredient("Milk", 2, Unit.Tablespoon),
@@ -40,8 +40,7 @@ namespace Recipe
                     scrambledEggsInstructions,
                     DishType.Main,
                     new HashSet<Allergen>() { Allergen.Dairy, Allergen.Eggs }
-                ));
-
+                ));*/
         }
     }
 }
