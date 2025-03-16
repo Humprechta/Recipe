@@ -1,19 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Win32;
 
 namespace Recipe
 {
         public class FileService
     {
-        private readonly string _filePath;
+        public string _filePath { get; private set; }
         private readonly PrintService print = new();
 
         public FileService(string filePath)
         {
             _filePath = filePath;
+        }
+        public void SelectFile()
+        {
+            Process process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "powershell",
+                    Arguments = "-Command \"Add-Type -AssemblyName System.Windows.Forms; $f=New-Object System.Windows.Forms.OpenFileDialog; $f.Filter='JSON Files (*.json)|*.json'; $f.ShowDialog() | Out-Null; Write-Output $f.FileName\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            string result = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit();
+            _filePath = string.IsNullOrEmpty(result) ? string.Empty : result;
+
         }
 
         /// <summary>

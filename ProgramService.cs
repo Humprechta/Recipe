@@ -31,6 +31,8 @@ namespace Recipe
         public void start()
         {
             Print.Print("Welcome in Recipe app by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
+            Print.Print("Choose a file with name Recipes -> [Recipe.json], if file not exist, create new.");
+            fileService.SelectFile();
             Recipes.recipes = fileService.LoadRecipes();
             while (true) //program loop
             {
@@ -39,9 +41,9 @@ namespace Recipe
         } 
         private Ingredient? CreateIngredient()
         {
-            string ingredientName = "";
-            double quantity = 0;
-            Unit unit = Unit.Gram; // Výchozí hodnota
+            //string ingredientName = "";
+            //double quantity = 0;
+            //Unit unit = Unit.Gram; // Výchozí hodnota
             DishType dishType = DishType.Main; // Výchozí hodnota
             Ingredient ingredient = null;
             while (true)//name
@@ -49,7 +51,7 @@ namespace Recipe
                 try
                 {
                     Print.Print("Název ingredience: ");
-                    ingredientName = Console.ReadLine();
+                    string ingredientName = Console.ReadLine();
                     ingredient = new Ingredient(ingredientName);
                     break;
                 }
@@ -63,7 +65,7 @@ namespace Recipe
                 try
                 {
                     Print.Print("Množství / váha: ");
-                    if (!double.TryParse(Console.ReadLine(), out quantity))
+                    if (!double.TryParse(Console.ReadLine(), out double quantity))
                     {
                         throw new CustomException("Zadejte prosí, číslo");
                     }
@@ -81,7 +83,7 @@ namespace Recipe
                 try
                 {
                     Print.Print("Jednotka (Gram, Milliliter, Piece, Teaspoon, Tablespoon, Cup): ");
-                    if (!Enum.TryParse(Console.ReadLine(), out unit))
+                    if (!Enum.TryParse(Console.ReadLine(), out Unit unit))
                     {
                         throw new CustomException("NePrintatná jednotka.");
                     }
@@ -287,7 +289,7 @@ namespace Recipe
             if (int.TryParse(choice, out int optionIndex) && optionIndex > 0 && optionIndex <= menuOpt.Count)
             {
                 string selectedOption = new List<string>(menuOpt.Keys)[optionIndex - 1];
-                Print.Print($"You choose: {selectedOption}");
+                Print.Print($"You choose: [{selectedOption}]");
                 
                 menuOpt[selectedOption].Invoke(); // Zavolá odpovídající metodu
             }
