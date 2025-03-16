@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Recipe
 {
@@ -25,7 +26,7 @@ namespace Recipe
     }
     public class Recipe : IPrintable
     {
-        public string Name { get; set; }
+        public string name;
         public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();// Krok za krokem postup
         //public List<Allergen> Allergens { get; set; } // Alergeny obsažené v receptu
@@ -42,6 +43,18 @@ namespace Recipe
             Instructions = instructions;
             this.dishType = dishType;
             Allergens = allergens;
+        }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new CustomException("Name cannot be empty");
+                }
+                name = value;
+            }
         }
 
         public DishType DishType

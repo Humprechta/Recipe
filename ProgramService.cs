@@ -105,11 +105,22 @@ namespace Recipe
             Print.deli();
             Print.Print("│ [Creating recipe]  │");
             Print.deli();
-            Print.Print("Zadejte název receptu: ");
-            string name = Console.ReadLine();
-            DishType dishType = DishType.Main; // Výchozí hodnota
-            Recipe recipe = new Recipe(name);
             HashSet<Allergen> allergens = new();
+            Recipe recipe;
+            DishType dishType;
+            while (true)
+            {
+                try
+                {
+                    Print.Print("Zadejte název receptu: ");
+                    recipe = new Recipe(Console.ReadLine());
+                    break;
+                }
+                catch (CustomException e)
+                {
+                    Print.Print("{" + e.Message + "}");
+                }
+            }
             // Typ jídla
             while (true)
             {
@@ -139,7 +150,7 @@ namespace Recipe
                 if (ingredient != null)
                 {
                     recipe.AddIngredient(ingredient);
-                    Print.Print("Ingredient saved.", true,ConsoleColor.Green);
+                    Print.Print("[Ingredient saved]", true,ConsoleColor.Green);
                 } 
             }
 
@@ -176,8 +187,7 @@ namespace Recipe
             recipe.Allergens = allergens;
             List<Instruction> listInstructions = createInstructions();
             recipe.Instructions = listInstructions;
-            Print.Print("Recipe saved.", true, ConsoleColor.Green);
-            Print.deli();
+            Print.Print("[Recipe saved]", true, ConsoleColor.Green);
             Recipes.recipes.Add(recipe);
         }
         private List<Instruction> createInstructions()
@@ -187,7 +197,8 @@ namespace Recipe
             while (true) //creating instruction
             {
                 Print.deli();
-                Print.p("Add instruction (y/n): ");
+                Print.Print("Add instruction (y/n): ",false);
+                Print.Print();
                 Print.deli();
                 if (Console.ReadLine().ToLower() != "y") {
                     Print.Print("Recap: ");
@@ -258,7 +269,7 @@ namespace Recipe
             int index = 1;
             foreach (var option in menuOpt.Keys)
             {
-                Print.pr($"{index}. ");
+                Print.Print("{" + index + "}. ", false);
                 Print.Print($"{option}");
                 index++;
             }

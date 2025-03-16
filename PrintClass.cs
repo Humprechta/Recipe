@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -38,14 +39,21 @@ namespace Recipe
             int line = 1;
             foreach (var item in list)
             {
-                pr($"{line}. ");
+                Print("{" + line + "}. ", false);
                 Console.ForegroundColor = color;
                 Print(item.GetPrintableString());
                 Console.ResetColor();
                 line++;
             }
         }
-        public void Print(string message,bool nextLine = true, ConsoleColor marker = ConsoleColor.Yellow, ConsoleColor err = ConsoleColor.Red)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message">Text</param>
+        /// <param name="nextLine">true = adding \n</param>
+        /// <param name="marker">Color of []</param>
+        /// <param name="err">Color of {}</param>
+        public void Print(string message = "",bool nextLine = true, ConsoleColor marker = ConsoleColor.Yellow, ConsoleColor err = ConsoleColor.Red)
         {
             var pieces = Regex.Split(message, @"(\{[^}]*\}|\[[^\]]*\])");
 
