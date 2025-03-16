@@ -12,22 +12,6 @@ namespace Recipe
 
     {
         /// <summary>
-        /// Console.WriteLine(s)
-        /// </summary>
-        /// <param name="s"></param>
-        public void pl(string s = null)
-        {
-            Console.WriteLine(s);
-        }
-        /// <summary>
-        /// Console.Write(s)
-        /// </summary>
-        /// <param name="s"></param>
-        public void p(string s)
-        {
-            Console.Write(s);
-        }
-        /// <summary>
         /// PrintClass deli
         /// </summary>
         public void deli()

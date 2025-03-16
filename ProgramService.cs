@@ -91,9 +91,9 @@ namespace Recipe
                     Print.Print("{" + e.Message + "}");
                 }
             }
-            Print.p("Recap: ");
+            Print.Print("Recap: ", false);
             Print.Print("[" + ingredient.GetPrintableString() + "]");
-            Print.p("Save? y/n:");
+            Print.Print("Save? y/n:", false);
             if (Console.ReadLine().ToLower() == "y")
             {
                 return ingredient;
@@ -144,7 +144,7 @@ namespace Recipe
             }
             while (true)
             {
-                Print.p("Add ingredient (y/n): ");
+                Print.Print("Add ingredient (y/n): ", false);
                 if (Console.ReadLine().ToLower() != "y") break;
                 Ingredient ingredient = CreateIngredient();
                 if (ingredient != null)
@@ -155,7 +155,7 @@ namespace Recipe
             }
 
             // Alergens
-            Print.p("Obsahuje alergeny? (y/n): ");
+            Print.Print("Obsahuje alergeny? (y/n): ", false);
             if (Console.ReadLine().ToLower() == "y")
             {
                 Print.Print("Add alergens (0 for exit):");
@@ -196,14 +196,12 @@ namespace Recipe
 
             while (true) //creating instruction
             {
-                Print.deli();
                 Print.Print("Add instruction (y/n): ",false);
-                Print.Print();
                 Print.deli();
                 if (Console.ReadLine().ToLower() != "y") {
                     Print.Print("Recap: ");
                     Print.PrintList(instructions, ConsoleColor.Yellow);
-                    Print.p("Save? y/n:");
+                    Print.Print("Save? y/n:",false);
                     if (Console.ReadLine().ToLower() == "y")
                     {
                         break; //return
@@ -215,7 +213,7 @@ namespace Recipe
                 {
                     try
                     {
-                        Print.Print("Postup: "); //1.2...,
+                        Print.Print("Step by step (recipe procedure): "); //1.2...,
                         string step = Console.ReadLine();
                         instruction.Step = step;
                         break;
@@ -274,7 +272,7 @@ namespace Recipe
                 index++;
             }
 
-            Print.p("Choose action: ");
+            Print.Print("Choose action: ", false);
             string choice = Console.ReadLine();
 
             if (int.TryParse(choice, out int optionIndex) && optionIndex > 0 && optionIndex <= menuOpt.Count)
