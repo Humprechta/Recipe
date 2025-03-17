@@ -16,7 +16,7 @@ namespace Recipe
         /// </summary>
         public void deli()
         {
-            Console.WriteLine("--------------------");
+            Print("--------------------");
         }
         public void PrintList<T>(List<T> list, ConsoleColor color = ConsoleColor.White) where T : IPrintable
         {
@@ -64,11 +64,43 @@ namespace Recipe
                 Console.WriteLine();
             }
         }
-        public void pr(string s)
+        public void ListRecipes(List<Recipe> recipes)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(s);
-            Console.ResetColor();
+            while (true)
+            {
+                deli();
+                Print("│ [Select a Recipe]  │");
+                deli();
+                Print("{0}. Go Back");
+                for (int i = 0; i < recipes.Count; i++)
+                {
+                    Print($"{{{i + 1}}}. {recipes[i].Name}");
+                }
+                if(recipes.Count > 1) {
+                    Print($"{{{recipes.Count + 1}}}. Show All Recipes");
+                }
+                Print("Enter your choice: ", false);
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    if (choice == 0)
+                    {
+                        break; // Go back
+                    }
+                    if (choice == recipes.Count + 1)
+                    {
+                        deli();
+                        Print("│[Listing all recipes]│");
+                        deli();
+                        PrintList(recipes);  // Show all recipes
+                    }
+                    if (choice > 0 && choice <= recipes.Count)
+                    {
+                        Print($"U choose: [{recipes[choice - 1].Name}]");
+                        deli();
+                        Print(recipes[choice - 1].GetPrintableString());
+                    }
+                }
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Recipe
                 Print.Print("{2}. Filter by Dish Type");
                 Print.Print("{3}. Filter by Excluded Allergens");
                 Print.Print("{4}. Apply Filters and Search");
+                Print.Print("{5}. Reset filter");
 
                 Print.Print("\n[Current Filters:]");
                 Print.Print($"  └──Ingredients: [{string.Join("], [", searchIngredients)}]");
@@ -114,17 +115,23 @@ namespace Recipe
                         break;
                     case "4":
                         List<Recipe> results = SearchRecipes(recipes, searchIngredients, dishType, excludedAllergens);
-                        Print.deli();
+                        /*Print.deli();
                         Print.Print("|  [Search Results]  |");
-                        Print.deli();
+                        Print.deli();*/
                         if (results.Count == 0)
                         {
                             Print.Print(" [- noting found -]");
                         }
                         else
                         {
-                            Print.PrintList(results);
+                            Print.ListRecipes(results);
                         }
+                        break;
+                    case "5":
+                        searchIngredients.Clear();
+                        dishType = null;
+                        excludedAllergens.Clear();
+                        Print.Print("[Filter successfully reset]", true, ConsoleColor.Green);
                         break;
                     default:
                         Print.Print("Invalid choice.");

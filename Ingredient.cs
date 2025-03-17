@@ -23,7 +23,7 @@ namespace Recipe
         private double quantity;
         private Unit unit;
 
-        public Ingredient() { }
+        public Ingredient() { } //for serialization
         public Ingredient(string name)
         {
             Name = name;

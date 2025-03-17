@@ -29,7 +29,7 @@ namespace Recipe
         public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();// Krok za krokem postup
         //public List<Allergen> Allergens { get; set; } // Alergeny obsažené v receptu
-        private HashSet<Allergen> allergens;
+        private HashSet<Allergen> allergens = new();
         private DishType dishType;
         public Recipe(){ }
 
