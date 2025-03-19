@@ -8,7 +8,7 @@ namespace Recipe
 {
     public class SearchService
     {
-        private PrintService Print = new();
+        private PrintService _printService = new();
         public void SearchRecipe(List<Recipe> recipes)
         {
             //HandleMenu(menuSearch);
@@ -19,22 +19,22 @@ namespace Recipe
 
             while (true)
             {
-                Print.deli();
-                Print.Print("|[Recipe Search Menu]|");
-                Print.deli();
-                Print.Print("{0}. Back");
-                Print.Print("{1}. Filter by Ingredients");
-                Print.Print("{2}. Filter by Dish Type");
-                Print.Print("{3}. Filter by Excluded Allergens");
-                Print.Print("{4}. Apply Filters and Search");
-                Print.Print("{5}. Reset filter");
+                _printService.deli();
+                _printService.Print("|[Recipe Search Menu]|");
+                _printService.deli();
+                _printService.Print("{0}. Back");
+                _printService.Print("{1}. Filter by Ingredients");
+                _printService.Print("{2}. Filter by Dish Type");
+                _printService.Print("{3}. Filter by Excluded Allergens");
+                _printService.Print("{4}. Apply Filters and Search");
+                _printService.Print("{5}. Reset filter");
 
-                Print.Print("\n[Current Filters:]");
-                Print.Print($"  └──Ingredients: [{string.Join("], [", searchIngredients)}]");
-                Print.Print($"  └──Dish Type: [{dishType}]");
-                Print.Print($"  └──Excluded Allergens: [{string.Join("], [", excludedAllergens)}]");
+                _printService.Print("\n[Current Filters:]");
+                _printService.Print($"  └──Ingredients: [{string.Join("], [", searchIngredients)}]");
+                _printService.Print($"  └──Dish Type: [{dishType}]");
+                _printService.Print($"  └──Excluded Allergens: [{string.Join("], [", excludedAllergens)}]");
 
-                Print.Print("\nEnter your choice: ", false);
+                _printService.Print("\nEnter your choice: ", false);
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -42,7 +42,7 @@ namespace Recipe
                     case "0":
                         return;
                     case "1":
-                        Print.Print("Enter ingredient(s) (comma-separated): ", false);
+                        _printService.Print("Enter ingredient(s) (comma-separated): ", false);
                         string ingredientsInput = Console.ReadLine();
 
                         if (string.IsNullOrEmpty(ingredientsInput))
@@ -55,10 +55,10 @@ namespace Recipe
                         searchIngredients.AddRange(newIngredients);
                         break;
                     case "2":
-                        Print.Print("Select Dish Type:");
-                        Print.Print("{0}. Back");
-                        Print.Print("{1}. Main");
-                        Print.Print("{2}. Dessert");
+                        _printService.Print("Select Dish Type:");
+                        _printService.Print("{0}. Back");
+                        _printService.Print("{1}. Main");
+                        _printService.Print("{2}. Dessert");
                         Console.Write("Enter your choice: ");
                         string dishTypeChoice = Console.ReadLine();
                         switch (dishTypeChoice)
@@ -77,13 +77,13 @@ namespace Recipe
                         }
                         break;
                     case "3":
-                        Print.Print("Select Excluded Allergens (comma-separated):");
-                        Print.Print("{1}. Gluten");
-                        Print.Print("{2}. Nuts");
-                        Print.Print("{3}. Dairy");
-                        Print.Print("{4}. Eggs");
-                        Print.Print("{5}. Soy");
-                        Print.Print("{6}. Seafood");
+                        _printService.Print("Select Excluded Allergens (comma-separated):");
+                        _printService.Print("{1}. Gluten");
+                        _printService.Print("{2}. Nuts");
+                        _printService.Print("{3}. Dairy");
+                        _printService.Print("{4}. Eggs");
+                        _printService.Print("{5}. Soy");
+                        _printService.Print("{6}. Seafood");
                         Console.Write("Enter your choice: ");
                         string allergensInput = Console.ReadLine();
 
@@ -115,26 +115,26 @@ namespace Recipe
                         break;
                     case "4":
                         List<Recipe> results = SearchRecipes(recipes, searchIngredients, dishType, excludedAllergens);
-                        /*Print.deli();
-                        Print.Print("|  [Search Results]  |");
-                        Print.deli();*/
+                        /*_printService.deli();
+                        _printService._printService("|  [Search Results]  |");
+                        _printService.deli();*/
                         if (results.Count == 0)
                         {
-                            Print.Print(" [- noting found -]");
+                            _printService.Print(" [- noting found -]");
                         }
                         else
                         {
-                            Print.ListRecipes(results);
+                            _printService.ListRecipes(results);
                         }
                         break;
                     case "5":
                         searchIngredients.Clear();
                         dishType = null;
                         excludedAllergens.Clear();
-                        Print.Print("[Filter successfully reset]", true, ConsoleColor.Green);
+                        _printService.Print("[Filter successfully reset]", true, ConsoleColor.Green);
                         break;
                     default:
-                        Print.Print("Invalid choice.");
+                        _printService.Print("Invalid choice.");
                         break;
                 }
             } 

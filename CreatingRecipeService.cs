@@ -20,7 +20,7 @@ namespace Recipe
             {
                 try
                 {
-                    Print.Print("Zadejte název receptu: ");
+                    Print.Print("Name of recipe: ");
                     recipe = new Recipe(Console.ReadLine());
                     break;
                 }
@@ -34,7 +34,7 @@ namespace Recipe
             {
                 try
                 {
-                    Print.Print("Typ jídla (Main, Dessert): ");
+                    Print.Print("Type of dish (Main, Dessert): ");
                     if (Enum.TryParse(Console.ReadLine(), out dishType))
                     {
                         recipe.DishType = dishType;
@@ -99,7 +99,7 @@ namespace Recipe
                     }
                     else
                     {
-                        throw new CustomException("NePrintatný alergen.");
+                        throw new CustomException("Invalid alergen.");
                     }
                 }
                 catch (CustomException e)
@@ -112,7 +112,7 @@ namespace Recipe
         private static Ingredient? CreateIngredient()
         {
             Ingredient ingredient = null;
-            while (true)//name
+            while (true)//_name
             {
                 try
                 {
@@ -126,7 +126,7 @@ namespace Recipe
                     Print.Print("{" + e.Message + "}");
                 }
             }
-            while (true)//quantity
+            while (true)//_quantity
             {
                 try
                 {
@@ -203,14 +203,14 @@ namespace Recipe
                         Print.Print("{" + e.Message + "}");
                     }
                 }
-                while (true)//quantity
+                while (true)//_quantity
                 {
                     try
                     {
                         Print.Print("Duration (min)");
                         if (!int.TryParse(Console.ReadLine(), out int duration))
                         {
-                            throw new CustomException("Zadejte prosí, číslo");
+                            throw new CustomException("Write only number (not decimal)");
                         }
                         instruction.Duration = duration;
                         break;

@@ -33,10 +33,10 @@ namespace Recipe
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="message">Text</param>
-        /// <param name="nextLine">true = adding \n</param>
-        /// <param name="marker">Color of []</param>
-        /// <param name="err">Color of {}</param>
+        /// <param _name="message">Text</param>
+        /// <param _name="nextLine">true = adding \n</param>
+        /// <param _name="marker">Color of []</param>
+        /// <param _name="err">Color of {}</param>
         public void Print(string message = "",bool nextLine = true, ConsoleColor marker = ConsoleColor.Yellow, ConsoleColor err = ConsoleColor.Red)
         {
             var pieces = Regex.Split(message, @"(\{[^}]*\}|\[[^\]]*\])");

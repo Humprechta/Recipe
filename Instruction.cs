@@ -8,8 +8,8 @@ namespace Recipe
 {
     public class Instruction : IPrintable
     {
-        private string step;
-        private int duration;
+        private string _step;
+        private int _duration;
 
         public Instruction(string step, int duration)
         {
@@ -20,33 +20,33 @@ namespace Recipe
 
         public string Step
         {
-            get { return step; }
+            get { return _step; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new CustomException("Step cannot be empty");
                 }
-                step = value;
+                _step = value;
             }
         }
 
         public int Duration
         {
-            get { return duration; }
+            get { return _duration; }
             set
             {
                 if (value < 0)
                 {
                     throw new CustomException("Duration must be non-negative");
                 }
-                duration = value;
+                _duration = value;
             }
         }
 
         public string GetPrintableString()
         {
-            return $"{step} - {duration} min";
+            return $"{_step} - {_duration} min";
         }
     }
 }

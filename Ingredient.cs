@@ -19,9 +19,9 @@ namespace Recipe
     // Třída pro ingredience
     public class Ingredient : IPrintable
     {
-        private string name;
-        private double quantity;
-        private Unit unit;
+        private string _name;
+        private double _quantity;
+        private Unit _unit;
 
         public Ingredient() { } //for serialization
         public Ingredient(string name)
@@ -38,40 +38,40 @@ namespace Recipe
 
         public string Name
         {
-            get { return name; }
+            get { return _name; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new CustomException("Name cannot be empty");
                 }
-                name = value;
+                _name = value;
             }
         }
 
         public double Quantity
         {
-            get { return quantity; }
+            get { return _quantity; }
             set
             {
                 if (value <= 0)
                 {
                     throw new CustomException("Quantity must be greater than zero");
                 }
-                quantity = value;
+                _quantity = value;
             }
         }
 
         public Unit Unit
         {
-            get { return unit; }
+            get { return _unit; }
             set
             {
                 if (!Enum.IsDefined(typeof(Unit), value))
                 {
                     throw new CustomException("Zadali jste špatnou hodnotu pro jednotku");
                 }
-                unit = value;
+                _unit = value;
             }
         }
         public string GetPrintableString()

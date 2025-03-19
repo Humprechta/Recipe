@@ -12,37 +12,37 @@ namespace Recipe
 {
     public class ProgramService
     {
-        private PrintService Print = new ();
-        private Recipes Recipes = new();
-        private Dictionary<string, Action> mainMenuOptions;
-        private SearchService searchService = new ();
-        private FileService fileService = new ("Recipe.json");
+        private PrintService _printService = new ();
+        private Recipes _recipes = new();
+        private Dictionary<string, Action> _mainMenuOptions;
+        private SearchService _searchService = new ();
+        private FileService _fileService = new ();
         public ProgramService()
         {
-            mainMenuOptions = new Dictionary<string, Action>
+            _mainMenuOptions = new Dictionary<string, Action>
             {
-                { "Přidat recept", AddRecipe },
-                { "Vyhledat recept", SearchRecipe },
-                { "Vypsat všechny recepty", ListAllRecipes },
-                { "Konec", ExitProgram }
+                { "Add recipe", AddRecipe },
+                { "Search recipe", SearchRecipe },
+                { "Show all recipes", ListAllRecipes },
+                { "Exit", ExitProgram }
             };
         }
 
         public void start()
         {
-            Print.Print("Welcome in Recipe app by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
-            Print.Print("Choose a file with name Recipes -> [Recipe.json], if file not exist, create new.");
-            fileService.SelectFile();
-            Recipes.recipes = fileService.LoadRecipes();
+            _printService.Print("Welcome in Recipe app by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
+            _printService.Print("Choose a file with name Recipes -> [Recipe.json], if file not exist, create new.");
+            _fileService.SelectFile();
+            _recipes.recipes = _fileService.LoadRecipes();
             while (true) //program loop
             {
                 try
                 {
-                    HandleMenu(mainMenuOptions);
+                    HandleMenu(_mainMenuOptions);
                 } 
                 catch(Exception e)
                 {
-                    Print.Print("{Err occured: " + e.Message + "}");
+                    _printService.Print("{Err occured: " + e.Message + "}");
                 }
                 
             }
@@ -50,51 +50,51 @@ namespace Recipe
         public void AddRecipe()
         {
             Recipe recipe = CreatingRecipeService.createRecipe();
-            Recipes.recipes.Add(recipe);
-            fileService.SaveRecipes(Recipes.GetRecipes());
-            Print.Print("[Recipe saved]", true, ConsoleColor.Green);
+            _recipes.recipes.Add(recipe);
+            _fileService.SaveRecipes(_recipes.GetRecipes());
+            _printService.Print("[Recipe saved]", true, ConsoleColor.Green);
         }
 
         private void SearchRecipe()
         {
-            searchService.SearchRecipe(Recipes.GetRecipes());
+            _searchService.SearchRecipe(_recipes.GetRecipes());
         }
 
         public void ListAllRecipes()
         {
-            Print.ListRecipes(Recipes.GetRecipes());
+            _printService.ListRecipes(_recipes.GetRecipes());
         }
         public void ExitProgram()
         {
-            fileService.SaveRecipes(Recipes.GetRecipes());
+            _fileService.SaveRecipes(_recipes.GetRecipes());
             Environment.Exit(0);
         }
         public void HandleMenu(Dictionary<string, Action> menuOpt)
         {
-            Print.deli();
-            Print.Print($"│       [Menu]       │");
-            Print.deli();
+            _printService.deli();
+            _printService.Print($"│       [Menu]       │");
+            _printService.deli();
             int index = 1;
             foreach (var option in menuOpt.Keys)
             {
-                Print.Print("{" + index + "}. ", false);
-                Print.Print($"{option}");
+                _printService.Print("{" + index + "}. ", false);
+                _printService.Print($"{option}");
                 index++;
             }
 
-            Print.Print("Choose action: ", false);
+            _printService.Print("Choose action: ", false);
             string choice = Console.ReadLine();
 
             if (int.TryParse(choice, out int optionIndex) && optionIndex > 0 && optionIndex <= menuOpt.Count)
             {
                 string selectedOption = new List<string>(menuOpt.Keys)[optionIndex - 1];
-                Print.Print($"You choose: [{selectedOption}]");
+                _printService.Print($"You choose: [{selectedOption}]");
                 
                 menuOpt[selectedOption].Invoke(); // Zavolá odpovídající metodu
             }
             else
             {
-                Print.Print("{Invalid number, try again}");
+                _printService.Print("{Invalid number, try again}");
             }
         }
     }

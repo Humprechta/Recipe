@@ -25,47 +25,47 @@ namespace Recipe
     }
     public class Recipe : IPrintable
     {
-        public string name;
+        private string _name;
         public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public List<Instruction> Instructions { get; set; } = new List<Instruction>();// Krok za krokem postup
         //public List<Allergen> Allergens { get; set; } // Alergeny obsažené v receptu
-        private HashSet<Allergen> allergens = new();
-        private DishType dishType;
+        private HashSet<Allergen> _allergens = new();
+        private DishType _dishType;
         public Recipe(){ }
 
         public Recipe(string name)
         {
             Name = name;
         }
-        public Recipe(string name, List<Ingredient> ingredients, List<Instruction> instructions, DishType dishType, HashSet<Allergen> allergens) : this(name) //send name toother constructor
+        public Recipe(string name, List<Ingredient> ingredients, List<Instruction> instructions, DishType dishType, HashSet<Allergen> allergens) : this(name) //send _name toother constructor
         {
             Ingredients = ingredients;
             Instructions = instructions;
-            this.dishType = dishType;
+            this._dishType = dishType;
             Allergens = allergens;
         }
         public string Name
         {
-            get { return name; }
+            get { return _name; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new CustomException("Name cannot be empty");
                 }
-                name = value;
+                _name = value;
             }
         }
 
         public DishType DishType
         {
-            get { return dishType; }
-            set { dishType = value; }
+            get { return _dishType; }
+            set { _dishType = value; }
             /*set
             {
                 if (!Enum.IsDefined(typeof(DishType), value))
                 {
-                    throw new CustomException("Zadali jste špatnou hodnotu pro dishType");
+                    throw new CustomException("Zadali jste špatnou hodnotu pro _dishType");
                 }
                 DishType = value;
             }*/
@@ -83,8 +83,8 @@ namespace Recipe
 
         public HashSet<Allergen> Allergens
         {
-            get { return allergens; }
-            set { allergens = value ?? new HashSet<Allergen>(); }
+            get { return _allergens; }
+            set { _allergens = value ?? new HashSet<Allergen>(); }
         }
 
         public void AddIngredient(Ingredient ingredient)
@@ -106,7 +106,7 @@ namespace Recipe
         {
             if(Allergens.Count == 0)
             {
-                return " └── - No allergens -";
+                return " └── - No _allergens -";
             }
             foreach (Ingredient ingredient in Ingredients)
 
@@ -114,7 +114,7 @@ namespace Recipe
         }*/
         public string GetPrintableString()
         {
-            string s = $"[{Name}] ({dishType})\n";
+            string s = $"[{Name}] ({_dishType})\n";
             s += "\n└──[Ingredietns:]\n";
             int count = 1;
             foreach (Ingredient ingredient in Ingredients)

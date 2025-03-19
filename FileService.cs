@@ -10,12 +10,15 @@ namespace Recipe
 {
         public class FileService
     {
-        public string _filePath { get; private set; }
+        public string filePath { get; private set; }
         private readonly PrintService print = new();
 
-        public FileService(string filePath)
+        /*public FileService(string filePath)
         {
-            _filePath = filePath;
+            this.filePath = filePath;
+        }*/
+        public FileService()
+        {
         }
         public void SelectFile()
         {
@@ -34,7 +37,7 @@ namespace Recipe
             process.Start();
             string result = process.StandardOutput.ReadToEnd().Trim();
             process.WaitForExit();
-            _filePath = string.IsNullOrEmpty(result) ? string.Empty : result;
+            filePath = string.IsNullOrEmpty(result) ? string.Empty : result;
 
         }
 
@@ -47,7 +50,7 @@ namespace Recipe
             try
             {
                 string json = JsonSerializer.Serialize(recipes, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(_filePath, json);
+                File.WriteAllText(filePath, json);
                 print.Print("[Recipes saved successfully.]", true, ConsoleColor.Green);
             }
             catch (Exception ex)
@@ -63,13 +66,13 @@ namespace Recipe
         {
             try
             {
-                if (!File.Exists(_filePath))
+                if (!File.Exists(filePath))
                 {
                     print.Print("[Recipe file not found. Returning an empty list.]");
                     return new List<Recipe>();
                 }
 
-                string json = File.ReadAllText(_filePath);
+                string json = File.ReadAllText(filePath);
                 print.Print("[Recipes succesfully loaded]",true, ConsoleColor.Green);
                 return JsonSerializer.Deserialize<List<Recipe>>(json) ?? new List<Recipe>();
             }
