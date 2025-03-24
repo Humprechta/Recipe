@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Recipe
 {
     public class Recipes
     {
-        public List<Recipe> recipes { get; set; } = new();
+        public List<Recipe> recipes { get; private set; } = new();
+        public void AddRecipe(Recipe recipe)
+        {
+            recipes.Add(recipe);
+        }
+        public void AddRecipe(List<Recipe> recipes)
+        {
+            this.recipes.AddRange(recipes);
+        }
         public List<Recipe> GetRecipes()
         {
             return recipes;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Text.Json.Serialization;
 
 namespace Recipe
 {
@@ -26,24 +21,40 @@ namespace Recipe
     public class Recipe : IPrintable
     {
         private string _name;
-        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
-        public List<Instruction> Instructions { get; set; } = new List<Instruction>();// Krok za krokem postup
+        [JsonInclude] //becouse private set ... otherwise deserialization will return empty...
+        public List<Ingredient> Ingredients { get; private set; } = new();
+        //this can be better - private set
+        [JsonInclude]
+        public List<Instruction> Instructions { get; private set; } = new();// Krok za krokem postup
         //public List<Allergen> Allergens { get; set; } // Alergeny obsažené v receptu
         private HashSet<Allergen> _allergens = new();
         private DishType _dishType;
-        public Recipe(){ }
+
+        public List<Ingredient> getIngredients()
+        {
+            return Ingredients;
+        }
+
+        public Recipe(){ } //for serialization
 
         public Recipe(string name)
         {
             Name = name;
         }
+
         public Recipe(string name, List<Ingredient> ingredients, List<Instruction> instructions, DishType dishType, HashSet<Allergen> allergens) : this(name) //send _name toother constructor
         {
-            Ingredients = ingredients;
-            Instructions = instructions;
+            this.Ingredients = ingredients;
+            this.Instructions = instructions;
             this._dishType = dishType;
             Allergens = allergens;
         }
+
+        public void AddInstructions(List<Instruction> instruction)
+        {
+            this.Instructions.AddRange(instruction);
+        }
+
         public string Name
         {
             get { return _name; }
@@ -117,9 +128,9 @@ namespace Recipe
             string s = $"[{Name}] ({_dishType})\n";
             s += "\n└──[Ingredietns:]\n";
             int count = 1;
-            foreach (Ingredient ingredient in Ingredients)
+            foreach (Ingredient ingredient in getIngredients())
             {
-                s += $"    └──{count}. {ingredient.GetPrintableString()}\n";
+                s += $"    └──{{{count}}}. {ingredient.GetPrintableString()}\n";
                 count++;
             }
 
@@ -131,7 +142,7 @@ namespace Recipe
             }
             foreach (Allergen allergen in Allergens)
             {
-                s += $"    └──{count}. {allergen}\n";
+                s += $"    └──{{{count}}}. {allergen}\n";
                 count++;
             }
 
@@ -139,7 +150,7 @@ namespace Recipe
             count = 1;
             foreach (Instruction instruction in Instructions)
             {
-                s += $"   └──{count}. {instruction.GetPrintableString()}\n";
+                s += $"   └──{{{count}}}. {instruction.GetPrintableString()}\n";
                 count++;
             }
             s += $"\n└──[Overall duration:] {GetDuration()} min\n";

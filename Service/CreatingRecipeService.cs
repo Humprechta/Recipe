@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Recipe
+﻿namespace Recipe
 {
     public static class CreatingRecipeService
     {
@@ -21,6 +15,7 @@ namespace Recipe
                 try
                 {
                     Print.Print("Name of recipe: ");
+
                     recipe = new Recipe(Console.ReadLine());
                     break;
                 }
@@ -50,6 +45,7 @@ namespace Recipe
                     Print.Print("{" + e.Message + "}");
                 }
             }
+
             while (true)
             {
                 Print.Print("Add ingredient (y/n): ", false);
@@ -79,9 +75,9 @@ namespace Recipe
                     }
                 }
             }
-            
+
             List<Instruction> listInstructions = createInstructions();
-            recipe.Instructions = listInstructions;
+            recipe.AddInstructions(listInstructions);
             return recipe;
         }
         private static HashSet<Allergen> AddAllergens()

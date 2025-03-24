@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.Win32;
 
 namespace Recipe
 {
-        public class FileService
+    public class FileService
     {
         public string filePath { get; private set; }
-        private readonly PrintService print = new();
+        private readonly PrintService _print = new();
 
-        /*public FileService(string filePath)
-        {
-            this.filePath = filePath;
-        }*/
         public FileService()
         {
         }
-        public void SelectFile()
+        /// <summary>
+        /// Let user set path for finding json file
+        /// </summary>
+        public void SetPath()
         {
             Process process = new Process
             {
@@ -51,11 +45,11 @@ namespace Recipe
             {
                 string json = JsonSerializer.Serialize(recipes, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(filePath, json);
-                print.Print("[Recipes saved successfully.]", true, ConsoleColor.Green);
+                _print.Print("[Recipes saved successfully.]", true, ConsoleColor.Green);
             }
             catch (Exception ex)
             {
-                print.Print("{Error saving recipes: " + ex.Message + "}");
+                _print.Print("{Error saving recipes: " + ex.Message + "}");
             }
         }
 
@@ -68,17 +62,17 @@ namespace Recipe
             {
                 if (!File.Exists(filePath))
                 {
-                    print.Print("[Recipe file not found. Returning an empty list.]");
+                    _print.Print("[Recipe file not found. Returning an empty list.]");
                     return new List<Recipe>();
                 }
 
                 string json = File.ReadAllText(filePath);
-                print.Print("[Recipes succesfully loaded]",true, ConsoleColor.Green);
+                _print.Print("[Recipes succesfully loaded]", true, ConsoleColor.Green);
                 return JsonSerializer.Deserialize<List<Recipe>>(json) ?? new List<Recipe>();
             }
             catch (Exception ex)
             {
-                print.Print("{Error loading recipes: " + ex.Message + "}");
+                _print.Print("{Error loading recipes: " + ex.Message + "}");
                 return new List<Recipe>();
             }
         }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+
 
 namespace Recipe
 {
@@ -31,7 +26,7 @@ namespace Recipe
             }
         }
         /// <summary>
-        /// 
+        /// Print message to user with colors - accepting [] and {}
         /// </summary>
         /// <param _name="message">Text</param>
         /// <param _name="nextLine">true = adding \n</param>

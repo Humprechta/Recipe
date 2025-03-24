@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-
-namespace Recipe
+﻿namespace Recipe.Service
 {
     public class ProgramService
     {
-        private PrintService _printService = new ();
+        private PrintService _printService = new();
         private Recipes _recipes = new();
         private Dictionary<string, Action> _mainMenuOptions;
-        private SearchService _searchService = new ();
-        private FileService _fileService = new ();
+        private SearchService _searchService = new();
+        private FileService _fileService = new();
         public ProgramService()
         {
             _mainMenuOptions = new Dictionary<string, Action>
@@ -32,25 +22,26 @@ namespace Recipe
         {
             _printService.Print("Welcome in Recipe app by Václav Taitl as Assignment for Object-Oriented Programming class - XAMK v1.0");
             _printService.Print("Choose a file with name Recipes -> [Recipe.json], if file not exist, create new.");
-            _fileService.SelectFile();
-            _recipes.recipes = _fileService.LoadRecipes();
+            _fileService.SetPath();
+
+            _recipes.AddRecipe(_fileService.LoadRecipes());
             while (true) //program loop
             {
                 try
                 {
                     HandleMenu(_mainMenuOptions);
-                } 
-                catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     _printService.Print("{Err occured: " + e.Message + "}");
                 }
-                
+
             }
-        } 
+        }
         public void AddRecipe()
         {
             Recipe recipe = CreatingRecipeService.createRecipe();
-            _recipes.recipes.Add(recipe);
+            _recipes.AddRecipe(recipe);
             _fileService.SaveRecipes(_recipes.GetRecipes());
             _printService.Print("[Recipe saved]", true, ConsoleColor.Green);
         }
@@ -89,7 +80,7 @@ namespace Recipe
             {
                 string selectedOption = new List<string>(menuOpt.Keys)[optionIndex - 1];
                 _printService.Print($"You choose: [{selectedOption}]");
-                
+
                 menuOpt[selectedOption].Invoke(); // Zavolá odpovídající metodu
             }
             else

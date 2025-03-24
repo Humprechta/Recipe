@@ -1,4 +1,6 @@
-﻿namespace Recipe
+﻿using Recipe.Service;
+
+namespace Recipe
 {
     internal class Program
     {

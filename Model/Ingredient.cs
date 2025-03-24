@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Recipe
+﻿namespace Recipe
 {
     // Enum pro jednotky
     public enum Unit
@@ -24,10 +18,12 @@ namespace Recipe
         private Unit _unit;
 
         public Ingredient() { } //for serialization
+
         public Ingredient(string name)
         {
             Name = name;
         }
+
         public Ingredient(string name, double quantity, Unit unit)
         {
             Name = name;

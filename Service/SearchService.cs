@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Recipe
+﻿namespace Recipe.Service
 {
     public class SearchService
     {
@@ -137,12 +131,12 @@ namespace Recipe
                         _printService.Print("Invalid choice.");
                         break;
                 }
-            } 
+            }
         }
         private List<Recipe> SearchRecipes(List<Recipe> recipes, List<string> searchIngredients, DishType? dishType, HashSet<Allergen> excludedAllergens)
         {
             return recipes.Where(r =>
-                (searchIngredients.Count == 0 || r.Ingredients.Any(i => searchIngredients.Contains(i.Name))) &&
+                (searchIngredients.Count == 0 || r.getIngredients().Any(i => searchIngredients.Contains(i.Name))) &&
                 (!dishType.HasValue || r.DishType == dishType) &&
                 (!excludedAllergens.Any() || !r.Allergens.Overlaps(excludedAllergens))
             ).ToList();
