@@ -1,0 +1,152 @@
+[
+  {
+    "Ingredients": [
+      {
+        "Name": "Eggs",
+        "Quantity": 2,
+        "Unit": 2
+      },
+      {
+        "Name": "Milk",
+        "Quantity": 2,
+        "Unit": 4
+      },
+      {
+        "Name": "Salt",
+        "Quantity": 0.5,
+        "Unit": 3
+      },
+      {
+        "Name": "Pepper",
+        "Quantity": 1,
+        "Unit": 3
+      },
+      {
+        "Name": "Butter",
+        "Quantity": 1,
+        "Unit": 4
+      }
+    ],
+    "Instructions": [
+      {
+        "Step": "Crack eggs into a bowl, add milk, salt, and pepper, and mix well.",
+        "Duration": 2
+      },
+      {
+        "Step": "Heat butter in a pan over medium heat.",
+        "Duration": 1
+      },
+      {
+        "Step": "Pour egg mixture into the pan and stir until eggs are set.",
+        "Duration": 5
+      },
+      {
+        "Step": "Serve immediately.",
+        "Duration": 1
+      }
+    ],
+    "Name": "Scrambled Eggs",
+    "DishType": 0,
+    "Allergens": [
+      1,
+      3
+    ]
+  },
+  {
+    "Ingredients": [
+      {
+        "Name": "Flour",
+        "Quantity": 1,
+        "Unit": 5
+      },
+      {
+        "Name": "Milk",
+        "Quantity": 1,
+        "Unit": 5
+      },
+      {
+        "Name": "Egg",
+        "Quantity": 2,
+        "Unit": 2
+      },
+      {
+        "Name": "Sugar",
+        "Quantity": 1,
+        "Unit": 4
+      },
+      {
+        "Name": "Salt",
+        "Quantity": 0.25,
+        "Unit": 3
+      },
+      {
+        "Name": "Butter",
+        "Quantity": 2,
+        "Unit": 4
+      }
+    ],
+    "Instructions": [
+      {
+        "Step": "In a bowl, mix flour, sugar, salt, and baking powder",
+        "Duration": 2
+      },
+      {
+        "Step": "Add milk and egg, then whisk until smooth.",
+        "Duration": 3
+      },
+      {
+        "Step": "Heat butter in a pan over medium heat.",
+        "Duration": 1
+      },
+      {
+        "Step": "Pour batter into the pan, cook until bubbles form, then flip.",
+        "Duration": 4
+      },
+      {
+        "Step": "Cook for another 2 minutes, then serve.",
+        "Duration": 2
+      },
+      {
+        "Step": "Continue until you dont cook everything",
+        "Duration": 15
+      }
+    ],
+    "Name": "Pancakes",
+    "DishType": 1,
+    "Allergens": [
+      1,
+      3,
+      0
+    ]
+  },
+  {
+    "Ingredients": [
+      {
+        "Name": "Mouka",
+        "Quantity": 300,
+        "Unit": 0
+      },
+      {
+        "Name": "Cukr",
+        "Quantity": 200,
+        "Unit": 0
+      },
+      {
+        "Name": "Vaj\u00ED\u010Dka",
+        "Quantity": 5,
+        "Unit": 2
+      },
+      {
+        "Name": "Olej",
+        "Quantity": 180,
+        "Unit": 1
+      }
+    ],
+    "Instructions": [],
+    "Name": "B\u00E1bovka",
+    "DishType": 1,
+    "Allergens": [
+      0
+    ]
+  }
+]
